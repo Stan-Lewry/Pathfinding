@@ -33,4 +33,8 @@ public class Grid {
     public void setCurrentGridSize(int currentGridSize){
         this.currentGridSize = currentGridSize;
     }
+
+    public int getMaxCells(){
+        return maxCells;
+    }
 }

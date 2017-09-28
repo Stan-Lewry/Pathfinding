@@ -85,4 +85,15 @@ public class GraphicsPanel extends JPanel{
         }
     }
 
+    public Grid getGrid(){
+        return grid;
+    }
+
+    public int getPanelWidth(){
+        return panelWidth;
+    }
+
+    public int getPanelHeight(){
+        return panelHeight;
+    }
 }
