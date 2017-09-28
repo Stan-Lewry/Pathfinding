@@ -42,12 +42,15 @@ public class MainApplicationWindow extends JFrame {
 
     public MainApplicationWindow(){
 
+
+        //Set up the main Panel.
+        //This has a two colum grid layout with the graphics panel on the left and the tools panel on the right
         GridLayout MainPanelLayout = new GridLayout(0, 2);
         mainPanel = new JPanel();
         mainPanel.setLayout(MainPanelLayout);
 
 
-        //GridLayout leftSideLayout = new GridLayout(0, 1);
+        //Set up the left panel. Border layout with thhe graphics window at the top and the tools at the bottom
         BorderLayout leftSideLayout = new BorderLayout();
         leftPanel = new JPanel();
         leftPanel.setLayout(leftSideLayout);
@@ -61,21 +64,22 @@ public class MainApplicationWindow extends JFrame {
         gridSizeSlider = new JSlider();
         gridSizeSlider.setMinimum(2);
         gridSizeSlider.setMaximum(graphicsPanel.getGrid().getMaxCells());
-        //gridSizeSlider.setMaximumSize(new Dimension(100, 40));
+        gridSizeSlider.setValue(graphicsPanel.getGrid().getCurrentGridSize());
         gridSizeSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 System.out.println("Grid size slider changed " + gridSizeSlider.getValue());
+                graphicsPanel.setGridSize(gridSizeSlider.getValue());
             }
         });
 
         graphicsPanelToolsPanel.add(gridSizeSlider);
 
         clearGridButton = new JButton("Clear");
-        //clearGridButton.setPreferredSize(new Dimension(100, 40));
         clearGridButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                graphicsPanel.clearGrid();
                 System.out.println("Clear grid button pressed");
             }
         });
@@ -113,6 +117,7 @@ public class MainApplicationWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Place wall button pressed");
+                graphicsPanel.setBrush(CellType.CELL_BLOCKED);
             }
         });
         placeObjectsButtonsPanel.add(placeWallButton);
@@ -122,6 +127,7 @@ public class MainApplicationWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Place guy button pressed");
+                graphicsPanel.setBrush(CellType.CELL_GUY);
             }
         });
         placeObjectsButtonsPanel.add(placeGuyButton);
@@ -131,6 +137,7 @@ public class MainApplicationWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Place goal button pressed");
+                graphicsPanel.setBrush(CellType.CELL_GOAL);
             }
         });
         placeObjectsButtonsPanel.add(placeGoalButton);
@@ -266,6 +273,7 @@ public class MainApplicationWindow extends JFrame {
         setVisible(true);
 
     }
+
 
     public static void main (String[] args){
         MainApplicationWindow mainApplicationWindow = new MainApplicationWindow();

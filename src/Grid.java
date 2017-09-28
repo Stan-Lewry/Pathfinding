@@ -1,9 +1,13 @@
 import java.awt.*;
 
+
+
 public class Grid {
 
     private final int maxCells;
     private int currentGridSize;
+
+
 
     private Cell[][] grid;
 
@@ -12,12 +16,14 @@ public class Grid {
         grid = new Cell[maxCells][maxCells];
         this.currentGridSize = currentGridSize;
         initGrid();
+
+
     }
 
     public void initGrid(){
         for(int y = 0; y < maxCells; y++ ){
             for(int x = 0; x < maxCells; x++){
-                grid[x][y] = new Cell(Color.CYAN);
+                grid[x][y] = new Cell(CellType.CELL_FREE );
             }
         }
     }

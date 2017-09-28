@@ -1,17 +1,26 @@
 import java.awt.*;
 
+enum CellType{
+    CELL_FREE,
+    CELL_BLOCKED,
+    CELL_GUY,
+    CELL_GOAL,
+    CELL_RANGE,
+    CELL_PATH
+}
+
 public class Cell {
-    private Color color;
+    private CellType cellType;
 
-    public Cell(Color color){
-        this.color = color;
+    public Cell (CellType cellType){
+        this.cellType = cellType;
     }
 
-    public Color getColor(){
-        return color;
+    public CellType getType(){
+        return cellType;
     }
 
-    public void setColor(Color color){
-        this.color = color;
+    public void setCellType(CellType cellType){
+        this.cellType = cellType;
     }
 }
