@@ -22,6 +22,7 @@ public class MainApplicationWindow extends JFrame {
     private JButton placeWallButton;
     private JButton placeGuyButton;
     private JButton placeGoalButton;
+    private JButton placeFreeButton;
 
     private JPanel setRangePanel;
     private JLabel setRangeLabel;
@@ -108,7 +109,7 @@ public class MainApplicationWindow extends JFrame {
 
         placeObjectsPanel.add(placeObjectsLabel, BorderLayout.NORTH);
 
-        GridLayout placeObjectsButtonsPanelLayout = new GridLayout(0, 3);
+        GridLayout placeObjectsButtonsPanelLayout = new GridLayout(0, 4);
         placeObjectsButtonsPanel = new JPanel();
         placeObjectsButtonsPanel.setLayout(placeObjectsButtonsPanelLayout);
 
@@ -141,6 +142,17 @@ public class MainApplicationWindow extends JFrame {
             }
         });
         placeObjectsButtonsPanel.add(placeGoalButton);
+
+        placeFreeButton = new JButton("Eraser");
+        placeFreeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Eraser Button pressed");
+                graphicsPanel.setBrush(CellType.CELL_FREE);
+            }
+        });
+        placeObjectsButtonsPanel.add(placeFreeButton);
+
         placeObjectsPanel.add(placeObjectsButtonsPanel, BorderLayout.SOUTH);
 
         //placeObjectsPanel.setBorder(BorderFactory.createEmptyBorder(panelMargin, 0, panelMargin, 0));
@@ -171,11 +183,14 @@ public class MainApplicationWindow extends JFrame {
         setRangeSlider = new JSlider();
         setRangeSlider.setMinimum(2);
         setRangeSlider.setMaximum(graphicsPanel.getGrid().getCurrentGridSize());
+        setRangeSlider.setValue(graphicsPanel.getMoveRange());
+
 
         setRangeSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 setRangeSliderValueLabel.setText(Integer.toString(setRangeSlider.getValue()));
+                graphicsPanel.setMoveRange(setRangeSlider.getValue());
                 System.out.println("Set range slider changed " + setRangeSlider.getValue());
             }
         });

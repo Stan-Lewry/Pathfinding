@@ -12,8 +12,15 @@ public class GraphicsPanel extends JPanel{
 
     private Point guyPos;
     private Point goalPos;
+    private boolean guyPlaced;
+
+    private int moveRange;
 
     public GraphicsPanel(){
+
+        guyPlaced = false;
+
+        moveRange = 10;
 
         guyPos = new Point(0, 0);
         goalPos = new Point(0, 0);
@@ -110,15 +117,33 @@ public class GraphicsPanel extends JPanel{
                         e.getY() < (y * (panelWidth / grid.getCurrentGridSize())) + panelWidth / grid.getCurrentGridSize()){
 
                     if(currentBrush == CellType.CELL_GUY){
+                        guyPlaced = true;
                         grid.getGrid()[guyPos.x][guyPos.y].setCellType(CellType.CELL_FREE);
                         guyPos = new Point(x, y);
+
+
+
                     }
                     else if(currentBrush == CellType.CELL_GOAL){
                         grid.getGrid()[goalPos.x][goalPos.y].setCellType(CellType.CELL_FREE);
                         goalPos = new Point(x, y);
                     }
+                    else if(currentBrush == CellType.CELL_FREE){
+                        if(grid.getGrid()[x][y].getType() == CellType.CELL_GUY){
+                            guyPlaced = false;
+                            grid.clearPreviousSearch();
+                        }
+                        //else if(grid.getGrid()[x][y].type)
+                    }
 
                     grid.getGrid()[x][y].setCellType(currentBrush);
+
+
+                    if(guyPlaced){
+                        grid.clearPreviousSearch();
+                        grid.breadthFirstSearch(guyPos, moveRange);
+                    }
+
                     System.out.println(x + "," + y);
                     paint(getGraphics());
                 }
@@ -127,6 +152,7 @@ public class GraphicsPanel extends JPanel{
     }
 
     public void clearGrid(){
+        guyPlaced = false;
         grid.initGrid();
         paint(getGraphics());
     }
@@ -150,5 +176,18 @@ public class GraphicsPanel extends JPanel{
 
     public void setBrush(CellType newBrush){
         currentBrush = newBrush;
+    }
+
+    public int getMoveRange(){
+        return moveRange;
+    }
+
+    public void setMoveRange(int moveRange){
+        this.moveRange = moveRange;
+        if(guyPlaced){
+            grid.clearPreviousSearch();
+            grid.breadthFirstSearch(guyPos, moveRange);
+            paint(getGraphics());
+        }
     }
 }
